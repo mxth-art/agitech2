@@ -61,7 +61,7 @@ const TechnologySection: React.FC = () => {
           >
             <div className="relative aspect-video">
               <img
-                src="https://images.pexels.com/photos/2581943/pexels-photo-2581943.jpeg"
+                src="https://ik.imagekit.io/qcf813yjh/Licella.jpg"
                 alt="CAT-HTR Technology"
                 className="w-full h-full object-cover"
               />
