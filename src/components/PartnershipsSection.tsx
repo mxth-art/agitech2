@@ -43,19 +43,19 @@ const PartnershipsSection: React.FC = () => {
   const certifications = [
     { 
       name: "ISO 14001 Environmental Management", 
-      logo: "https://images.pexels.com/photos/5157102/pexels-photo-5157102.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/iso-14001-2015-environmental-management-system-1723801835-7566977.jpeg"
     },
     { 
       name: "Carbon Trust Standard", 
-      logo: "https://images.pexels.com/photos/5157107/pexels-photo-5157107.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcSIUzQNszw_Ttl_rkjtK0_ui65SSIlh-ToPlw&s"
     },
     { 
       name: "Sustainable Biomass Program", 
-      logo: "https://images.pexels.com/photos/5157082/pexels-photo-5157082.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/SBP_Logo_RGB_strapline.jpg"
     },
     { 
       name: "GHG Protocol Certified", 
-      logo: "https://images.pexels.com/photos/5157062/pexels-photo-5157062.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcTKnLzkkfG7di27okwfdH5E8zV7cQIjBDk1Aw&s"
     }
   ];
   
