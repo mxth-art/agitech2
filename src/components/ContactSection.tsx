@@ -100,7 +100,7 @@ const ContactSection: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Email</h3>
-                    <p className="text-green-100">info@agribiofuels.com</p>
+                    <p className="text-green-100 ">info@agribiofuels.com</p>
                     <p className="text-green-100">partnerships@agribiofuels.com</p>
                   </div>
                 </div>
