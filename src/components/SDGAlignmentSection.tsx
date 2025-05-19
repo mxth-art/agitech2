@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 interface SDGData {
   id: number;
@@ -12,8 +13,6 @@ interface SDGData {
 }
 
 const SDGAlignmentSection: React.FC = () => {
-  const [activeSDG, setActiveSDG] = useState<number | null>(null);
-  
   const sdgs: SDGData[] = [
     {
       id: 7,
@@ -86,96 +85,94 @@ const SDGAlignmentSection: React.FC = () => {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">UN SDG Alignment</h2>
           <div className="w-24 h-1 bg-green-600 mx-auto mt-4 mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Our business model directly contributes to five United Nations Sustainable Development Goals.
           </p>
-        </div>
+        </motion.div>
         
-        <div className="max-w-4xl mx-auto">
-          {/* Interactive SDG Wheel */}
-          <div className="relative h-96 mb-12">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-72 h-72 md:w-80 md:h-80">
-                {/* Central circle */}
-                <div className="absolute inset-1/4 bg-white rounded-full shadow-lg flex items-center justify-center z-20">
-                  <img 
-                    src="https://images.pexels.com/photos/3768010/pexels-photo-3768010.jpeg" 
-                    alt="Agri-BioFuels SDG Impact" 
-                    className="h-full w-full object-cover rounded-full"
-                  />
-                </div>
-                
-                {/* SDG circles */}
-                {sdgs.map((sdg, index) => {
-                  const angle = ((index * (360 / sdgs.length)) * Math.PI) / 180;
-                  const radius = 120; // Distance from center
-                  const x = radius * Math.cos(angle);
-                  const y = radius * Math.sin(angle);
-                  
-                  return (
-                    <button
-                      key={sdg.id}
-                      className={`absolute w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ${
-                        activeSDG === sdg.id ? 'scale-125 z-10' : 'hover:scale-110'
-                      }`}
-                      style={{
-                        backgroundColor: sdg.color,
-                        transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
-                        left: '50%',
-                        top: '50%'
-                      }}
-                      onClick={() => setActiveSDG(activeSDG === sdg.id ? null : sdg.id)}
-                    >
-                      <span className="text-white font-bold text-lg">
-                        {sdg.id}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          
-          {/* SDG Details */}
-          {activeSDG && (
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-8 animate-fadeIn">
-              {sdgs.filter(sdg => sdg.id === activeSDG).map(sdg => (
-                <div key={sdg.id}>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sdgs.map((sdg, index) => (
+            <motion.div
+              key={sdg.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="group relative"
+            >
+              <motion.div
+                className="relative bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {/* SDG Header */}
+                <div 
+                  className="p-6 transition-colors duration-300"
+                  style={{ backgroundColor: sdg.color + '22' }}
+                >
                   <div className="flex items-center mb-4">
                     <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0"
+                      className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4"
                       style={{ backgroundColor: sdg.color }}
                     >
                       {sdg.id}
                     </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800">SDG {sdg.id}: {sdg.name}</h3>
+                    <h3 className="text-xl font-semibold text-gray-800">{sdg.name}</h3>
+                  </div>
+                  <p className="text-gray-600">{sdg.description}</p>
+                </div>
+
+                {/* Metrics - Revealed on hover */}
+                <motion.div 
+                  className="overflow-hidden"
+                  initial={{ height: 0 }}
+                  whileHover={{ height: 'auto' }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  <div className="p-6 bg-white border-t border-gray-100">
+                    <div className="space-y-4">
+                      {sdg.metrics.map((metric, idx) => (
+                        <motion.div
+                          key={idx}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className="flex justify-between items-center"
+                        >
+                          <span className="text-sm text-gray-600">{metric.label}</span>
+                          <span 
+                            className="font-semibold"
+                            style={{ color: sdg.color }}
+                          >
+                            {metric.value}
+                          </span>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
-                  
-                  <p className="text-gray-600 mb-6">{sdg.description}</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {sdg.metrics.map((metric, index) => (
-                      <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600 mb-1">{metric.label}</div>
-                        <div className="font-semibold text-gray-800">{metric.value}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          
-          {!activeSDG && (
-            <div className="text-center text-gray-600">
-              Click on any SDG icon to see how our work contributes to that goal
-            </div>
-          )}
+                </motion.div>
+
+                {/* Hover Indicator */}
+                <motion.div
+                  className="absolute bottom-2 left-1/2 transform -translate-x-1/2"
+                  initial={{ opacity: 0.5 }}
+                  whileHover={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-sm text-gray-400">Hover for metrics</div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
