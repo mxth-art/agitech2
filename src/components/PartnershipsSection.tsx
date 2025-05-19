@@ -10,7 +10,7 @@ const PartnershipsSection: React.FC = () => {
     { 
       name: "AirGreen Airlines", 
       type: "Aviation", 
-      logo: "https://images.pexels.com/photos/1098365/pexels-photo-1098365.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcQdFNJ4Bt2MTtrMy6L7BTC240h-fJMQGQOmww&s"
     },
     { 
       name: "OceanShip Lines", 
