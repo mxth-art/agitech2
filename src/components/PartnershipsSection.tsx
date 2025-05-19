@@ -15,27 +15,27 @@ const PartnershipsSection: React.FC = () => {
     { 
       name: "OceanShip Lines", 
       type: "Maritime", 
-      logo: "https://images.pexels.com/photos/1270184/pexels-photo-1270184.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcT_8vpCp3iDRvDP0UR2wB08kvmPLO7D27_7hA&s?updatedAt=1747637285161"
     },
     { 
       name: "GreenTech Energy", 
       type: "Technology", 
-      logo: "https://images.pexels.com/photos/996156/pexels-photo-996156.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcTWvCEmBxMdVKq-nyr6L37J86fkA0Kw6_QIMQ&s"
     },
     { 
       name: "AgriGrow Cooperative", 
       type: "Agricultural", 
-      logo: "https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcQ_oLHeXMhkOy4e7VvpPQTeON72Qzp4cdZpYg&s"
     },
     { 
       name: "Sustainable Aviation Group", 
       type: "Aviation", 
-      logo: "https://images.pexels.com/photos/2026324/pexels-photo-2026324.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcTbCTjnNeoG3qNol-ZEmTjLpLq-trvUAFEuzA&s"
     },
     { 
       name: "CleanShip Maritime", 
       type: "Maritime", 
-      logo: "https://images.pexels.com/photos/2397652/pexels-photo-2397652.jpeg"
+      logo: "https://ik.imagekit.io/qcf813yjh/images_q=tbn:ANd9GcTiVYg5E6UnkCiP69eVIGZgGBzP7EXo4Y-WeA&s"
     }
   ];
   
