@@ -18,6 +18,8 @@ interface Particle {
   rotation: number;
   rotationSpeed: number;
   type: 'leaf' | 'spark';
+  scale: number;
+  scaleSpeed: number;
 }
 
 const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) => {
@@ -25,7 +27,6 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
   const particlesRef = useRef<Particle[]>([]);
   const animationFrameRef = useRef<number>(0);
 
-  // Colors for particles
   const leafColors = ['#7ED957', '#5BB318', '#4E944F', '#3F7D20'];
   const sparkColors = ['#FFB72B', '#F9D923', '#E5D549', '#F6F7C4'];
 
@@ -37,8 +38,16 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
     if (!ctx) return;
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      
+      ctx.scale(dpr, dpr);
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      
       initParticles();
     };
 
@@ -57,7 +66,6 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
           particleType = 'spark';
           colors = sparkColors;
         } else {
-          // Mixed type - randomly choose
           particleType = Math.random() > 0.5 ? 'leaf' : 'spark';
           colors = particleType === 'leaf' ? leafColors : sparkColors;
         }
@@ -74,9 +82,15 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
           opacity: Math.random() * 0.6 + 0.2,
           rotation: Math.random() * 360,
           rotationSpeed: (Math.random() - 0.5) * 2,
-          type: particleType
+          type: particleType,
+          scale: 1,
+          scaleSpeed: (Math.random() - 0.5) * 0.02
         });
       }
+    };
+
+    const easeInOutQuad = (t: number): number => {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
     };
 
     const drawParticles = () => {
@@ -89,15 +103,14 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
         ctx.globalAlpha = particle.opacity;
         ctx.translate(particle.x, particle.y);
         ctx.rotate((particle.rotation * Math.PI) / 180);
+        ctx.scale(particle.scale, particle.scale);
         
         if (particle.type === 'leaf') {
-          // Draw leaf
           ctx.fillStyle = particle.color;
           ctx.beginPath();
           ctx.ellipse(0, 0, particle.size, particle.size * 1.6, 0, 0, Math.PI * 2);
           ctx.fill();
           
-          // Leaf vein
           ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
           ctx.lineWidth = particle.size / 6;
           ctx.beginPath();
@@ -105,17 +118,13 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
           ctx.lineTo(0, particle.size);
           ctx.stroke();
         } else {
-          // Draw spark/energy particle
-          ctx.fillStyle = particle.color;
-          ctx.beginPath();
-          
-          // Create a gradient for spark
           const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, particle.size);
-          gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+          gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
           gradient.addColorStop(0.6, particle.color);
           gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
           
           ctx.fillStyle = gradient;
+          ctx.beginPath();
           ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
           ctx.fill();
         }
@@ -132,6 +141,12 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
         particle.y += particle.speedY;
         particle.rotation += particle.rotationSpeed;
         
+        // Smooth scale animation
+        particle.scale += particle.scaleSpeed;
+        if (particle.scale > 1.2 || particle.scale < 0.8) {
+          particle.scaleSpeed *= -1;
+        }
+        
         // Reset particles that go off-screen
         if (particle.y < -particle.size * 2) {
           particle.y = canvas.height + particle.size;
@@ -144,7 +159,7 @@ const ParticleSystem: React.FC<ParticleSystemProps> = ({ type, density = 50 }) =
           particle.x = -particle.size;
         }
         
-        // Gradually morph leaves to sparks if mixed type
+        // Gradually morph particles if mixed type
         if (type === 'mixed' && Math.random() < 0.001) {
           if (particle.type === 'leaf') {
             particle.type = 'spark';
