@@ -60,11 +60,17 @@ const TechnologySection: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="relative aspect-video">
-              <img
-                src="https://ik.imagekit.io/qcf813yjh/cat%20htr%20video.mp4"
-                alt="CAT-HTR Technology"
-                className="w-full h-full object-cover"
-              />
+              <video
+  src="https://ik.imagekit.io/qcf813yjh/cat%20htr%20video.mp4"
+  autoPlay
+  loop
+  muted
+  playsInline
+  className="w-full h-full object-cover"
+>
+  Your browser does not support the video tag.
+</video>
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
                 <div className="absolute bottom-4 left-4 text-white">
                   <h4 className="text-lg font-semibold mb-1">CAT-HTR Reactor</h4>
