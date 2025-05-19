@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowRight, Download, Info } from 'lucide-react';
 import Button from './ui/Button';
+import { motion } from 'framer-motion';
 
 const TechnologySection: React.FC = () => {
-  // State for the interactive 3D model (simplified for this implementation)
-  const [modelRotation, setModelRotation] = useState({ x: 0, y: 0 });
-  
-  // Compare technologies data
   const compareTechnologies = [
     {
       name: 'CAT-HTR (Our Technology)',
@@ -42,14 +39,6 @@ const TechnologySection: React.FC = () => {
     }
   ];
 
-  // Handle 3D model interaction (simplified)
-  const handleModelDrag = (e: React.MouseEvent) => {
-    setModelRotation({
-      x: modelRotation.x + e.movementY * 0.5,
-      y: modelRotation.y + e.movementX * 0.5
-    });
-  };
-
   return (
     <section id="technology" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
@@ -62,46 +51,66 @@ const TechnologySection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Interactive 3D Model (hover to rotate) */}
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 h-64 sm:h-96 flex items-center justify-center relative overflow-hidden group">
-            <div
-              className="w-40 h-40 sm:w-64 sm:h-64 relative transition-transform duration-300"
-              style={{
-                transform: `rotateX(${modelRotation.x}deg) rotateY(${modelRotation.y}deg)`,
-                transformStyle: 'preserve-3d',
-                perspective: '1000px'
-              }}
-              onMouseMove={e => {
-                const rect = (e.target as HTMLDivElement).getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                // Map mouse position to rotation angles
-                const rotateY = ((x / rect.width) - 0.5) * 40; // -20deg to +20deg
-                const rotateX = ((y / rect.height) - 0.5) * -40; // +20deg to -20deg
-                setModelRotation({ x: rotateX, y: rotateY });
-              }}
-              onMouseLeave={() => setModelRotation({ x: 0, y: 0 })}
-            >
-              {/* Simplified 3D model representation */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-blue-600 rounded-full opacity-70"
-                style={{ transform: 'translateZ(-32px)' }} />
-              <div className="absolute inset-1 sm:inset-4 bg-gradient-to-tr from-green-600 to-blue-500 rounded-full opacity-80"
-                style={{ transform: 'translateZ(-16px)' }} />
-              <div className="absolute inset-2 sm:inset-8 bg-gradient-to-r from-green-700 to-blue-400 rounded-full opacity-90"
-                style={{ transform: 'translateZ(0px)' }} />
-              <div className="absolute inset-4 sm:inset-16 bg-gradient-to-b from-green-800 to-blue-300 rounded-full"
-                style={{ transform: 'translateZ(16px)' }} />
-              <div className="absolute inset-6 sm:inset-24 bg-gradient-to-t from-green-900 to-blue-200 rounded-full"
-                style={{ transform: 'translateZ(32px)' }} />
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none">
-              <div className="text-white bg-black/50 px-2 py-1 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-base opacity-0 group-hover:opacity-100 transition-opacity">
-                Hover to rotate
+          {/* CAT-HTR Technology Image */}
+          <motion.div 
+            className="bg-white rounded-xl shadow-lg overflow-hidden"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="relative aspect-video">
+              <img
+                src="https://images.pexels.com/photos/2581943/pexels-photo-2581943.jpeg"
+                alt="CAT-HTR Technology"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h4 className="text-lg font-semibold mb-1">CAT-HTR Reactor</h4>
+                  <p className="text-sm text-gray-200">Advanced biomass conversion system</p>
+                </div>
+              </div>
+              
+              {/* Hotspots */}
+              <div className="absolute top-1/4 left-1/4">
+                <div className="relative group">
+                  <div className="w-4 h-4 bg-green-500 rounded-full animate-ping absolute"></div>
+                  <div className="w-4 h-4 bg-green-500 rounded-full relative"></div>
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/75 text-white text-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    Biomass Input Chamber
+                  </div>
+                </div>
+              </div>
+              
+              <div className="absolute top-1/2 right-1/3">
+                <div className="relative group">
+                  <div className="w-4 h-4 bg-blue-500 rounded-full animate-ping absolute"></div>
+                  <div className="w-4 h-4 bg-blue-500 rounded-full relative"></div>
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/75 text-white text-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    Catalytic Reactor Core
+                  </div>
+                </div>
+              </div>
+              
+              <div className="absolute bottom-1/3 right-1/4">
+                <div className="relative group">
+                  <div className="w-4 h-4 bg-amber-500 rounded-full animate-ping absolute"></div>
+                  <div className="w-4 h-4 bg-amber-500 rounded-full relative"></div>
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/75 text-white text-sm py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    Biocrude Output
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">How CAT-HTR Works</h3>
             <p className="text-gray-600 mb-6">
               The Catalytic Hydrothermal Reactor (CAT-HTR) technology uses supercritical water to convert agricultural waste into high-quality biocrude oil, which is then refined into sustainable aviation fuel (SAF) and sustainable maritime fuel (SMF).
@@ -155,7 +164,7 @@ const TechnologySection: React.FC = () => {
             >
               Request Technical Whitepaper
             </Button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Technology Comparison Table */}
